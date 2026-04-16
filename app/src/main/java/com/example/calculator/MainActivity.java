@@ -48,6 +48,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         btn8.setOnClickListener(this);
         btn9.setOnClickListener(this);
         btnClear.setOnClickListener(this);
+
+        btnAdd.setOnClickListener(this);
+        btnSub.setOnClickListener(this);
+        btnMul.setOnClickListener(this);
+        btnDiv.setOnClickListener(this);
+        btnEq.setOnClickListener(this);
     }
 
     @Override
@@ -63,6 +69,43 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             firstValue = 0;
             lastOperation = "";
             textResult.setText("0");
+        }
+        } else if (buttonText.equals("+") || buttonText.equals("-") || 
+                   buttonText.equals("*") || buttonText.equals("/")) {
+            performOperation(buttonText);
+        } else if (buttonText.equals("=")) {
+            calculateResult();
+        }
+    }
+
+    private void performOperation(String operation) {
+        if (!currentNumber.isEmpty()) {
+            double value = Double.parseDouble(currentNumber);
+            if (lastOperation.isEmpty()) {
+                firstValue = value;
+            } else {
+                switch (lastOperation) {
+                    case "+": firstValue += value; break;
+                    case "-": firstValue -= value; break;
+                    case "*": firstValue *= value; break;
+                    case "/": 
+                        if (value != 0) firstValue /= value;
+                        else textResult.setText("Error");
+                        break;
+                }
+            }
+            lastOperation = operation;
+            currentNumber = "";
+            textResult.setText(String.valueOf(firstValue));
+        }
+    }
+
+    private void calculateResult() {
+        if (!lastOperation.isEmpty() && !currentNumber.isEmpty()) {
+            performOperation(lastOperation);
+            lastOperation = "";
+            textResult.setText(String.valueOf(firstValue));
+            currentNumber = "";
         }
     }
 
