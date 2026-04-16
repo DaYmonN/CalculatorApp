@@ -1,11 +1,12 @@
 package com.example.calculator;
 
+import android.view.View;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements View.OnClickListener {
     TextView textResult;
     String currentNumber = "";
     String lastOperation = "";
@@ -35,5 +36,34 @@ public class MainActivity extends AppCompatActivity {
         Button btnDiv = findViewById(R.id.btnDiv);
         Button btnEq = findViewById(R.id.btnEq);
         Button btnClear = findViewById(R.id.btnClear);
+
+        btn0.setOnClickListener(this);
+        btn1.setOnClickListener(this);
+        btn2.setOnClickListener(this);
+        btn3.setOnClickListener(this);
+        btn4.setOnClickListener(this);
+        btn5.setOnClickListener(this);
+        btn6.setOnClickListener(this);
+        btn7.setOnClickListener(this);
+        btn8.setOnClickListener(this);
+        btn9.setOnClickListener(this);
+        btnClear.setOnClickListener(this);
     }
+
+    @Override
+    public void onClick(View v) {
+        Button b = (Button) v;
+        String buttonText = b.getText().toString();
+        
+        if (buttonText.matches("[0-9]")) {
+            currentNumber += buttonText;
+            textResult.setText(currentNumber);
+        } else if (buttonText.equals("C")) {
+            currentNumber = "";
+            firstValue = 0;
+            lastOperation = "";
+            textResult.setText("0");
+        }
+    }
+
 }
